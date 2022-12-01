@@ -133,8 +133,8 @@ import {ref} from 'vue'
 import Clock from "@/components/Clock.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 import Settings from "@/components/Settings.vue";
-import DevTools from "@/DevTools.vue";
-import Search from "@/Search.vue";
+import DevTools from "@/components/DevTools.vue";
+import Search from "@/components/Search.vue";
 
 const changeOrder = () => (order.value = order.value ??= '-1')
 const onClick = () => (theme.value = theme.value === 'light' ? 'dark' : 'light')

@@ -12,6 +12,6 @@
 </template>
 
 <script lang="ts" setup>
-import WebWorkerDemo from '@/components/WebWorkerDemo';
+import WebWorkerDemo from '@/components/WebWorkerDemo.vue';
 const props = defineProps({ log: String })
 </script>
