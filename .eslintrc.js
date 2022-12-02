@@ -1,0 +1,81 @@
+module.exports = {
+  root: true,
+  env: {
+    node: true,
+    es6: true,
+    browser: true,
+  },
+  extends: [
+    'plugin:vue/vue3-recommended',
+    '@vue/eslint-config-typescript/recommended',
+    '@vue/eslint-config-prettier',
+  ],
+  parserOptions: {
+    ecmaVersion: 2020,
+  },
+  ignorePatterns: ['src/shims-vue.d.ts', 'src/vite-env.d.ts', 'cypress/shims-vue.d.ts'],
+  plugins: ['sort-imports-es6-autofix', 'unused-imports'],
+  rules: {
+    '@intlify/vue-i18n/no-raw-text': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/ban-types': 'off', // disabled for errors on typed props in vue
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+    'curly': 'warn',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-unsafe-optional-chaining': 'error',
+    'prettier/prettier': 'error',
+    'sort-imports-es6-autofix/sort-imports-es6': 'error',
+    'unused-imports/no-unused-imports': 'error',
+    'vue/block-lang': ['error', { 'script': { 'lang': 'ts' } }],
+    'vue/component-api-style': ['error', ['script-setup', 'composition']],
+    'vue/component-name-in-template-casing': 'error',
+    'vue/component-options-name-casing': ['error', 'PascalCase'],
+    'vue/define-props-declaration': 'error',
+    'vue/html-comment-content-newline': 'error',
+    'vue/html-comment-content-spacing': 'error',
+    'vue/html-comment-indent': 'error',
+    'vue/match-component-file-name': 'error',
+    'vue/match-component-import-name': 'error',
+    'vue/no-duplicate-attr-inheritance': 'error',
+    'vue/no-empty-component-block': 'error',
+    'vue/no-multiple-objects-in-class': 'error',
+    'vue/no-required-prop-with-default': 'error',
+    'vue/no-static-inline-styles': 'error',
+    'vue/no-template-target-blank': 'error',
+    'vue/no-this-in-before-route-enter': 'error',
+    'vue/no-unsupported-features': ['error', { 'version': '^3.2.31' }],
+    'vue/no-useless-mustaches': 'error',
+    'vue/no-useless-v-bind': 'error',
+    'vue/no-v-text': 'error',
+    'vue/padding-line-between-blocks': 'error',
+    'vue/prefer-separate-static-class': 'error',
+    'vue/require-direct-export': 'error',
+    'vue/require-name-property': 'error',
+    'vue/v-for-delimiter-style': 'error',
+    'vue/v-on-function-call': 'error',
+  },
+  settings: {
+    'import/extensions': ['.ts', '.vue'],
+    'vue-i18n': {
+      localeDir: './src/locales/*.{json,json5,yaml,yml}', // extension is glob formatting!
+      messageSyntaxVersion: '^9.0.0',
+    },
+  },
+  overrides: [
+    {
+      files: ['./src/interfaces/*.d.ts'],
+      rules: {
+        '@typescript-eslint/no-empty-interface': ['off'],
+      },
+    },
+    {
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
+      env: {
+        jest: true,
+      },
+    },
+  ],
+};
