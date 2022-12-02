@@ -1,7 +1,6 @@
 <template>
   <v-app :theme="theme">
     <v-layout>
-
       <v-navigation-drawer
         v-model="drawer"
         elevation="2"
@@ -14,7 +13,7 @@
           title="Janushki Dotingolaev von Ravensburger tot Bruhckensthein"
           nav
         >
-          <template v-slot:append>
+          <template #append>
             <v-btn
               variant="text"
               icon="mdi-chevron-left"
@@ -23,56 +22,59 @@
           </template>
         </v-list-item>
 
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-home-city" title="Home" value="home"></v-list-item>
-          <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-home-city"
+            title="Home"
+            value="home"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-account"
+            title="My Account"
+            value="account"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-account-group-outline"
+            title="Users"
+            value="users"
+          ></v-list-item>
         </v-list>
       </v-navigation-drawer>
 
-      <v-navigation-drawer v-if="extraBar" width="500" color="grey-darken-1" permanent>
-        <DevTools />
+      <v-navigation-drawer
+        v-if="extraBar"
+        width="500"
+        color="grey-darken-1"
+        permanent
+      >
+        <DevTools :log="search" />
       </v-navigation-drawer>
 
-      <v-app-bar height="56" color="grey" elevation="0" >
-        <template v-slot:prepend>
-          <Clock/>
-        </template>
-        <template v-slot:append>
-          <v-btn-toggle
-            v-model="order"
-            @click="changeOrder"
-            dark
-            rounded
-            density="compact"
-          >
-            <v-btn>
-              <v-icon>mdi-pin</v-icon>
-            </v-btn>
-          </v-btn-toggle>
+      <v-app-bar height="56" color="grey" elevation="0">
+        <template #prepend><Clock /></template>
+
+        <template #append>
           <v-btn icon="mdi-heart"></v-btn>
-          <span class="pa-4">{{ `<< insert your logo here >>` }}</span>
+          <BarOrderButton :order="barOrder" @change:order="changeOrder" />
         </template>
       </v-app-bar>
 
-      <v-navigation-drawer location="right"
+      <v-navigation-drawer
         v-model="drawer"
+        location="right"
         elevation="2"
         :rail="railRight"
         permanent
         expand-on-hover
         @click="railRight = false"
       >
-        <v-list-item
-          title="Opnemen"
-          nav
-        >
-          <template v-slot:prepend>
+        <v-list-item title="Opnemen" nav>
+          <template #prepend>
             <v-btn icon="mdi-phone" elevation="0"></v-btn>
           </template>
-          <template v-slot:append>
+          <template #append>
             <v-btn
               variant="text"
               icon="mdi-chevron-left"
@@ -84,44 +86,61 @@
         <v-divider></v-divider>
 
         <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-home-city" title="Home" value="home"></v-list-item>
-          <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-home-city"
+            title="Home"
+            value="home"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-account"
+            title="My Account"
+            value="account"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-account-group-outline"
+            title="Users"
+            value="users"
+          ></v-list-item>
         </v-list>
       </v-navigation-drawer>
 
-      <v-app-bar height="56" color="grey-lighten-2" elevation="2" :order="order">
-        <template v-slot:prepend>
-          <v-btn icon="mdi-heart"></v-btn> <h3>Jan, Vue 3 and Vuetify 3...</h3>
+      <v-app-bar
+        height="56"
+        color="grey-lighten-2"
+        elevation="2"
+        :order="barOrder"
+      >
+        <template #prepend>
+          <v-btn icon="mdi-hamburger"></v-btn>
+          <h3>Vue 3 and Vuetify 3...</h3>
         </template>
 
-        <template v-slot:append>
-          <v-tooltip :text="`Darkmode: ${ theme === 'dark' ? 'aan' : 'uit' }`" location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-btn rounded v-bind="props" :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'" @click="onClick" />
-            </template>
-          </v-tooltip>
-          <v-tooltip text="DevTools" location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-btn rounded v-bind="props"
-                     :icon="extraBar ? 'mdi-lock-open' : 'mdi-lock'"
-                     @click="extraBar = !extraBar"
-              />
-            </template>
-          </v-tooltip>
+        <template #append>
+          <DarkModeButton :theme="theme" @change:darkmode="changeDarkmode" />
+          <DevToolsButton :bar="extraBar" @update:bar="toggleBar" />
           <Settings />
-          <v-btn icon="mdi-dots-vertical"></v-btn>
+          <!--          <v-btn icon="mdi-dots-vertical"></v-btn> -->
         </template>
       </v-app-bar>
 
-      <v-app-bar location="bottom" height="48" color="grey-lighten-2" elevation="0">
-        <p class="pa-4"> &copy; DotjeDotCom Productions 🌈</p>
+      <v-app-bar
+        location="bottom"
+        height="48"
+        color="grey-lighten-2"
+        elevation="0"
+      >
+        <v-tooltip text="Tooltip">
+          <template #activator="{ props }">
+            <p class="pa-4">&copy; DotjeDotCom Productions 🌈</p>
+            <v-btn v-bind="props">Tooltip</v-btn>
+          </template>
+        </v-tooltip>
       </v-app-bar>
 
       <v-main>
-        <Search class="ma-2 pa-4"/>
+        <SearchField class="ma-2 pa-4" @update:search="updateSearch" />
         <v-card class="ma-2 pa-4">
-          <HelloWorld  />
+          <HelloWorld />
         </v-card>
       </v-main>
     </v-layout>
@@ -129,20 +148,28 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue'
-import Clock from "@/components/Clock.vue";
-import HelloWorld from "@/components/HelloWorld.vue";
-import Settings from "@/components/Settings.vue";
+import { ref } from "vue";
+import BarOrderButton from "@/components/Buttons/BarOrderButton.vue";
+import Clock from "@/components/InteractiveClock.vue";
+import DarkModeButton from "@/components/Buttons/DarkModeButton.vue";
 import DevTools from "@/components/DevTools.vue";
-import Search from "@/components/Search.vue";
+import DevToolsButton from "@/components/Buttons/DevToolsButton.vue";
+import HelloWorld from "@/components/HelloWorld.vue";
+import SearchField from "@/components/SearchField.vue";
+import Settings from "@/components/SettingsDialog.vue";
 
-const changeOrder = () => (order.value = order.value ??= '-1')
-const onClick = () => (theme.value = theme.value === 'light' ? 'dark' : 'light')
+const changeOrder = () =>
+  (barOrder.value = barOrder.value === "0" ? "-1" : "0");
+const changeDarkmode = () =>
+  (theme.value = theme.value === "light" ? "dark" : "light");
+const toggleBar = () => (extraBar.value = !extraBar.value);
+const updateSearch = (newValue: string) => (search.value = newValue);
 
-const drawer = ref(true)
-const extraBar = ref(false)
-const order = ref('0')
-const rail = ref(true)
-const railRight = ref(true)
-const theme = ref('dark')
+const barOrder = ref("-1");
+const drawer = ref(true);
+const extraBar = ref(false);
+const rail = ref(true);
+const railRight = ref(true);
+const theme = ref("light");
+const search = ref("");
 </script>
