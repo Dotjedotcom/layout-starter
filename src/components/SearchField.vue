@@ -1,6 +1,6 @@
 <template>
-  <v-card class="d-flex justify-center align-center">
-    <h4>Zoek:</h4>
+  <v-card density="comfortable" class="d-flex justify-center align-center">
+    <v-card-title class="pt-0 pl-0">Zoek:</v-card-title>
     <v-card-text>
       <v-text-field
         v-model="search"

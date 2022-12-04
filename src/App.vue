@@ -139,6 +139,9 @@
 
       <v-main>
         <SearchField class="ma-2 pa-4" @update:search="updateSearch" />
+        <SpeechSynthesis :search="search" />
+        <TimerDisplay />
+        <ColorTransformer />
         <v-card class="ma-2 pa-4">
           <HelloWorld />
         </v-card>
@@ -151,12 +154,15 @@
 import { ref } from "vue";
 import BarOrderButton from "@/components/Buttons/BarOrderButton.vue";
 import Clock from "@/components/InteractiveClock.vue";
+import ColorTransformer from "@/components/ColorTransformer.vue";
 import DarkModeButton from "@/components/Buttons/DarkModeButton.vue";
 import DevTools from "@/components/DevTools.vue";
 import DevToolsButton from "@/components/Buttons/DevToolsButton.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 import SearchField from "@/components/SearchField.vue";
 import Settings from "@/components/SettingsDialog.vue";
+import SpeechSynthesis from "@/components/SpeechSynthesis.vue";
+import TimerDisplay from "@/components/TimerDisplay.vue";
 
 const changeOrder = () =>
   (barOrder.value = barOrder.value === "0" ? "-1" : "0");
